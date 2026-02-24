@@ -140,3 +140,91 @@
 .animate-fade-in-up {
   animation: fade-in-up 0.8s ease-out both;
 }
+
+/* Micro-animations — Task 7.2 */
+@keyframes scale-bounce {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+@keyframes fade-slide-up {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-right {
+  0% { transform: translateX(110%); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slide-out-right {
+  0% { transform: translateX(0); opacity: 1; }
+  100% { transform: translateX(120%); opacity: 0; }
+}
+
+@keyframes draw-circle {
+  0% { stroke-dashoffset: 283; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes draw-check {
+  0% { stroke-dashoffset: 50; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes float-up-fade {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-40px); }
+}
+
+@keyframes progress-deplete {
+  0% { width: 100%; }
+  100% { width: 0%; }
+}
+
+.animate-scale-bounce {
+  animation: scale-bounce 0.6s ease-out forwards;
+}
+
+.animate-fade-slide-up {
+  animation: fade-slide-up 0.4s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-slide-out-right {
+  animation: slide-out-right 0.3s ease-in forwards;
+}
+
+.animate-draw-circle {
+  animation: draw-circle 0.8s ease-out forwards;
+}
+
+.animate-draw-check {
+  animation: draw-check 0.4s 0.6s ease-out forwards;
+}
+
+.animate-float-up-fade {
+  animation: float-up-fade 1s 0.8s ease-out forwards;
+}
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-scale-bounce,
+  .animate-fade-slide-up,
+  .animate-slide-in-right,
+  .animate-slide-out-right,
+  .animate-draw-circle,
+  .animate-draw-check,
+  .animate-float-up-fade,
+  .animate-fade-in-up,
+  .animate-confetti-fall,
+  .animate-xp-sparkle {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

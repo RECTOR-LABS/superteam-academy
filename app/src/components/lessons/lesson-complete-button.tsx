@@ -9,6 +9,7 @@ import { useEnrollment } from '@/lib/hooks/use-enrollment';
 import { useStreak } from '@/lib/hooks/use-streak';
 import { XpToast } from '@/components/gamification/xp-toast';
 import { ConfettiAnimation } from '@/components/gamification/confetti-animation';
+import { LessonCompleteAnimation } from '@/components/gamification/lesson-complete-animation';
 import { cn } from '@/lib/utils';
 
 // ---------------------------------------------------------------------------
@@ -51,6 +52,7 @@ export function LessonCompleteButton({
   const [isCompleted, setIsCompleted] = useState(initialCompleted);
   const [showXpToast, setShowXpToast] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [showCheckAnimation, setShowCheckAnimation] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleComplete = useCallback(async () => {
@@ -65,9 +67,10 @@ export function LessonCompleteButton({
       // Record streak activity
       recordActivity();
 
-      // Trigger celebration
+      // Trigger celebrations
       setShowXpToast(true);
       setShowConfetti(true);
+      setShowCheckAnimation(true);
 
       // Auto-advance after delay
       setTimeout(() => {
@@ -99,6 +102,14 @@ export function LessonCompleteButton({
       <ConfettiAnimation trigger={showConfetti} />
 
       <div className={cn('flex flex-col items-center gap-2', className)}>
+        {/* Checkmark animation on fresh completion */}
+        {showCheckAnimation && (
+          <LessonCompleteAnimation
+            xp={xpReward}
+            onComplete={() => setShowCheckAnimation(false)}
+          />
+        )}
+
         {isCompleted ? (
           <Button
             disabled
