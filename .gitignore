@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+
+# Build
+.next/
+out/
+dist/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Vercel
+.vercel
+
+# Sentry
+.sentryclirc
+
+# PWA
+sw.js
+workbox-*.js
+
+# Test
+coverage/
+test-results/
+playwright-report/
+
+# Sanity
+.sanity/
