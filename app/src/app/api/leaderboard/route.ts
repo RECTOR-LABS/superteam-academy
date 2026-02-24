@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { HELIUS_RPC, XP_MINT } from '@/lib/solana/constants';
+import { HELIUS_RPC_SERVER, XP_MINT } from '@/lib/solana/constants';
 
 /**
  * GET /api/leaderboard
@@ -36,7 +36,7 @@ export async function GET() {
   }
 
   try {
-    const response = await fetch(HELIUS_RPC, {
+    const response = await fetch(HELIUS_RPC_SERVER, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

@@ -17,8 +17,17 @@ export const CLUSTER = (process.env.NEXT_PUBLIC_CLUSTER || 'devnet') as
   | 'mainnet-beta'
   | 'testnet';
 
+/** Client-safe RPC endpoint for wallet adapter connections. */
 export const HELIUS_RPC =
-  process.env.NEXT_PUBLIC_HELIUS_RPC_URL || `https://devnet.helius-rpc.com/?api-key=`;
+  process.env.NEXT_PUBLIC_HELIUS_RPC_URL || 'https://api.devnet.solana.com';
+
+/**
+ * Server-only RPC endpoint with full Helius API key.
+ * Uses HELIUS_RPC_URL (no NEXT_PUBLIC_ prefix) so the key stays out of client bundles.
+ * Falls back to the public HELIUS_RPC when the server-only var is not set.
+ */
+export const HELIUS_RPC_SERVER =
+  process.env.HELIUS_RPC_URL || HELIUS_RPC;
 
 export const TOKEN_2022_PROGRAM_ID = new PublicKey(
   'TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb'

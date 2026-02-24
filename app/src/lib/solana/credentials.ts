@@ -1,6 +1,55 @@
 import { HELIUS_RPC } from './constants';
 import { configPda } from './pda';
 
+// ---------------------------------------------------------------------------
+// Helius DAS API response types (minimal — only fields we access)
+// ---------------------------------------------------------------------------
+
+interface DasAttribute {
+  trait_type?: string | null;
+  value?: string | number;
+}
+
+interface DasGrouping {
+  group_key: string;
+  group_value: string;
+}
+
+interface DasAsset {
+  id: string;
+  interface?: string;
+  content?: {
+    metadata?: {
+      name?: string;
+      attributes?: DasAttribute[];
+    };
+    json_uri?: string;
+    links?: { image?: string };
+    files?: Array<{ uri?: string }>;
+  };
+  ownership?: {
+    owner?: string;
+    frozen?: boolean;
+  };
+  grouping?: DasGrouping[];
+  authorities?: Array<{ address?: string }>;
+  created_at?: string;
+}
+
+interface DasRpcResponse<T> {
+  jsonrpc: string;
+  id: string;
+  result?: T;
+}
+
+interface DasAssetListResult {
+  items: DasAsset[];
+}
+
+// ---------------------------------------------------------------------------
+// Application types
+// ---------------------------------------------------------------------------
+
 export interface Credential {
   assetId: string;
   name: string;
@@ -49,12 +98,12 @@ export async function getCredentialsByOwner(ownerAddress: string): Promise<Crede
     }),
   });
 
-  const data = await response.json();
+  const data: DasRpcResponse<DasAssetListResult> = await response.json();
   if (!data.result?.items) return [];
 
   // Filter for Metaplex Core assets — academy credentials use configPda as update authority
   return data.result.items
-    .filter((item: any) => item.interface === 'MplCoreAsset')
+    .filter((item) => item.interface === 'MplCoreAsset')
     .map(mapDasAssetToCredential);
 }
 
@@ -73,7 +122,7 @@ export async function getCredentialById(assetId: string): Promise<Credential | n
     }),
   });
 
-  const data = await response.json();
+  const data: DasRpcResponse<DasAsset> = await response.json();
   if (!data.result) return null;
 
   return mapDasAssetToCredential(data.result);
@@ -113,8 +162,8 @@ export async function verifyCredential(assetId: string): Promise<VerificationRes
  * Map a Helius DAS API asset response to our Credential type.
  * Handles missing/malformed fields gracefully with sensible defaults.
  */
-export function mapDasAssetToCredential(item: any): Credential {
-  const attrs: any[] = item.content?.metadata?.attributes || [];
+export function mapDasAssetToCredential(item: DasAsset): Credential {
+  const attrs: DasAttribute[] = item.content?.metadata?.attributes || [];
   const attrMap: Record<string, string> = {};
   for (const attr of attrs) {
     if (attr.trait_type && attr.value !== undefined) {
@@ -129,7 +178,7 @@ export function mapDasAssetToCredential(item: any): Credential {
     imageUrl: item.content?.links?.image || item.content?.files?.[0]?.uri || '',
     owner: item.ownership?.owner || '',
     collection:
-      item.grouping?.find((g: any) => g.group_key === 'collection')?.group_value || '',
+      item.grouping?.find((g) => g.group_key === 'collection')?.group_value || '',
     frozen: item.ownership?.frozen || false,
     attributes: {
       trackId: attrMap['track_id'] ? Number(attrMap['track_id']) : undefined,

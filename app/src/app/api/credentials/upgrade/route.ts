@@ -14,7 +14,13 @@ import {
   validateRequest,
   isErrorResponse,
 } from '@/lib/solana/server/validate';
-import { configPda, coursePda, enrollmentPda } from '@/lib/solana/pda';
+import {
+  configPda,
+  coursePda,
+  enrollmentPda,
+  trackCollectionPda,
+  extractTrackIdFromCourseData,
+} from '@/lib/solana/pda';
 import {
   PROGRAM_ID,
   MPL_CORE_PROGRAM_ID,
@@ -46,29 +52,6 @@ const UPGRADE_CREDENTIAL_DISCRIMINATOR = Buffer.from(
     .digest()
     .subarray(0, 8),
 );
-
-/**
- * Extracts the trackId from raw Course account data.
- * See issue/route.ts for layout documentation.
- */
-function extractTrackIdFromCourseData(
-  data: Buffer,
-  courseId: string,
-): number {
-  const DISCRIMINATOR_SIZE = 8;
-  const STRING_LEN_SIZE = 4;
-  const courseIdLen = Buffer.from(courseId).length;
-  const baseOffset = DISCRIMINATOR_SIZE + STRING_LEN_SIZE + courseIdLen;
-  const trackIdOffset = baseOffset + 32 + 32 + 2 + 1 + 4;
-  return data.readUInt8(trackIdOffset);
-}
-
-function trackCollectionPda(trackId: number): [PublicKey, number] {
-  return PublicKey.findProgramAddressSync(
-    [Buffer.from('track_collection'), Buffer.from([trackId])],
-    PROGRAM_ID,
-  );
-}
 
 /**
  * Serializes instruction data for upgrade_credential:

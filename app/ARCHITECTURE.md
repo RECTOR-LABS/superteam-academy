@@ -29,7 +29,7 @@ Three locales are supported out of the box: English, Portuguese, and Spanish —
 - `@metaplex-foundation/mpl-core` + `umi` — Metaplex Core NFT operations
 - `@monaco-editor/react` — In-browser code editor for challenges
 - `chart.js` + `recharts` — Dashboard analytics and progress visualization
-- `framer-motion` — Animations (level-up, confetti, page transitions)
+- Pure CSS animations — Keyframe-based animations (level-up, confetti, page transitions)
 - `cmdk` — Command palette for navigation
 - `date-fns` — Date formatting across locales
 
@@ -409,8 +409,8 @@ Development seed data (`sanity/seed/`) provides NDJSON files for bulk import. Th
 ### Animation Performance
 
 - **`prefers-reduced-motion`**: All animations (confetti, level-up, page transitions) respect the user's motion preferences
-- **GPU-accelerated**: Framer Motion animations use `transform` and `opacity` for compositor-only rendering
-- **Conditional loading**: Animation libraries loaded only when needed
+- **GPU-accelerated**: CSS keyframe animations use `transform` and `opacity` for compositor-only rendering
+- **Lightweight**: No animation library dependency — pure CSS keyframes keep bundle size minimal
 
 ### Data Fetching
 

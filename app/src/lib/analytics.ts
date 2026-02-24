@@ -1,13 +1,20 @@
+declare global {
+  interface Window {
+    va?: { track: (name: string, properties?: Record<string, unknown>) => void };
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
 type EventProperties = Record<string, string | number | boolean>;
 
 export function trackEvent(name: string, properties?: EventProperties) {
   // Vercel Analytics
-  if (typeof window !== 'undefined' && 'va' in window) {
-    (window as any).va?.track(name, properties);
+  if (typeof window !== 'undefined' && window.va) {
+    window.va.track(name, properties);
   }
   // Google Analytics 4
-  if (typeof window !== 'undefined' && 'gtag' in window) {
-    (window as any).gtag('event', name, properties);
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', name, properties);
   }
 }
 

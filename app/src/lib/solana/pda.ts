@@ -80,3 +80,43 @@ export function achievementReceiptPda(
     programId,
   );
 }
+
+/**
+ * Derives the track collection PDA for credential NFTs.
+ * Seeds: ["track_collection", trackId as u8]
+ */
+export function trackCollectionPda(
+  trackId: number,
+  programId: PublicKey = PROGRAM_ID,
+): [PublicKey, number] {
+  return PublicKey.findProgramAddressSync(
+    [Buffer.from('track_collection'), Buffer.from([trackId])],
+    programId,
+  );
+}
+
+/**
+ * Extracts the trackId from raw Course account data.
+ *
+ * Course layout after 8-byte discriminator:
+ *   [8..12]  courseId string length (u32 LE)
+ *   [12..12+len] courseId bytes
+ *   [12+len..12+len+32] creator (Pubkey)
+ *   [12+len+32..12+len+64] contentTxId ([u8; 32])
+ *   [12+len+64..12+len+66] lessonCount (u16 LE)
+ *   [12+len+66..12+len+67] difficulty (u8)
+ *   [12+len+67..12+len+71] xpPerLesson (u32 LE)
+ *   [12+len+71..12+len+72] trackId (u8)
+ */
+export function extractTrackIdFromCourseData(
+  data: Buffer,
+  courseId: string,
+): number {
+  const DISCRIMINATOR_SIZE = 8;
+  const STRING_LEN_SIZE = 4;
+  const courseIdLen = Buffer.from(courseId).length;
+  const baseOffset = DISCRIMINATOR_SIZE + STRING_LEN_SIZE + courseIdLen;
+  // creator(32) + contentTxId(32) + lessonCount(2) + difficulty(1) + xpPerLesson(4) = 71
+  const trackIdOffset = baseOffset + 32 + 32 + 2 + 1 + 4;
+  return data.readUInt8(trackIdOffset);
+}

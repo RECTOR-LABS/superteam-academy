@@ -1,5 +1,5 @@
 import { Keypair, Connection } from '@solana/web3.js';
-import { HELIUS_RPC } from '../constants';
+import { HELIUS_RPC_SERVER } from '../constants';
 
 /**
  * Backend signer keypair loader and server-side connection factory.
@@ -38,5 +38,5 @@ export function getBackendSigner(): Keypair {
 }
 
 export function getServerConnection(): Connection {
-  return new Connection(HELIUS_RPC, 'confirmed');
+  return new Connection(HELIUS_RPC_SERVER, 'confirmed');
 }
