@@ -19,15 +19,15 @@ export class LandingPage {
   constructor(page: Page) {
     this.page = page;
 
-    this.heroHeading = page.locator('#hero-heading');
-    this.heroCta = page.locator('section[aria-labelledby="hero-heading"] a[href*="/courses"]');
+    this.heroHeading = page.getByRole('heading', { level: 1 }).first();
+    this.heroCta = page.getByRole('link', { name: /start learning/i }).first();
     this.heroSubtitle = page.locator('section[aria-labelledby="hero-heading"] p').first();
     this.connectWalletButton = page.getByRole('button', { name: /connect wallet/i });
     this.header = page.locator('header');
     this.footer = page.locator('footer[role="contentinfo"]');
     this.headerLogo = page.getByLabel('Superteam Academy home').first();
     this.headerNavLinks = page.locator('nav[aria-label="Main navigation"] a');
-    this.footerPlatformLinks = page.locator('footer ul[role="list"] a');
+    this.footerPlatformLinks = page.locator('footer a');
     this.stats = page.locator('section[aria-labelledby="hero-heading"]').locator('.flex.items-center.gap-2\\.5');
   }
 

@@ -16,10 +16,10 @@ test.describe('Leaderboard', () => {
   });
 
   test('time filter buttons are rendered', async ({ page }) => {
-    // The TimeFilter component renders buttons for Weekly, Monthly, All Time
-    const weeklyBtn = page.getByRole('button', { name: /weekly/i });
-    const monthlyBtn = page.getByRole('button', { name: /monthly/i });
-    const allTimeBtn = page.getByRole('button', { name: /all time/i });
+    // The TimeFilter component renders tab elements for Weekly, Monthly, All Time
+    const weeklyBtn = page.getByRole('tab', { name: /weekly/i });
+    const monthlyBtn = page.getByRole('tab', { name: /monthly/i });
+    const allTimeBtn = page.getByRole('tab', { name: /all time/i });
 
     await expect(weeklyBtn).toBeVisible();
     await expect(monthlyBtn).toBeVisible();

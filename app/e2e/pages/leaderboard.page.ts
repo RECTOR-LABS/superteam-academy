@@ -20,7 +20,7 @@ export class LeaderboardPage {
     this.podium = page.getByText(/rank|#1|#2|#3/i).first();
     // LeaderboardTable renders entries after the podium
     this.table = page.locator('table, [role="table"]').first();
-    this.timeFilterButtons = page.getByRole('button', { name: /weekly|monthly|all time/i });
+    this.timeFilterButtons = page.getByRole('tab');
     this.refreshButton = page.getByRole('button', { name: /refresh/i });
     this.yourRank = page.getByText(/your rank/i);
   }
@@ -38,7 +38,7 @@ export class LeaderboardPage {
   }
 
   async switchTimeFilter(filter: 'Weekly' | 'Monthly' | 'All Time') {
-    await this.page.getByRole('button', { name: new RegExp(filter, 'i') }).click();
+    await this.page.getByRole('tab', { name: new RegExp(filter, 'i') }).click();
     await this.page.waitForTimeout(300);
   }
 

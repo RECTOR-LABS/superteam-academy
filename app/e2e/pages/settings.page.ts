@@ -20,7 +20,7 @@ export class SettingsPage {
     this.profileCard = page.getByText(/profile/i).first();
     this.appearanceCard = page.getByText(/appearance/i).first();
 
-    // Theme buttons are the 3 option cards (Light, Dark, System)
+    // Theme buttons are the 3 option cards (Light, Dark, System) with aria-pressed
     this.themeButtons = page.locator('button[aria-pressed]');
     this.languageSelect = page.locator('button[role="combobox"]').first();
     this.displayNameInput = page.locator('#display-name');

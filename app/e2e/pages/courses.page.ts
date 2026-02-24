@@ -17,7 +17,7 @@ export class CoursesPage {
     this.page = page;
 
     this.pageTitle = page.locator('h1');
-    this.searchInput = page.getByRole('textbox');
+    this.searchInput = page.getByPlaceholder(/search courses/i);
     this.courseGrid = page.locator('[class*="grid"]').first();
     this.courseCards = page.locator('a[href*="/courses/"]');
     this.filterSidebar = page.locator('.hidden.lg\\:flex').first();
