@@ -9,6 +9,7 @@ import {
   BookOpen,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { seedLessons, seedLessonContents } from '@/lib/sanity/seed-data';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -40,118 +41,29 @@ interface MockLesson {
   }[];
 }
 
+// The section type matches what seed-data.ts exports as SeedContentSection
 function getMockLesson(_courseId: string, lessonIndex: number): MockLesson {
-  const lessons: MockLesson[] = [
-    {
-      title: 'Introduction to Solana',
-      sections: [
-        {
-          type: 'text',
-          content:
-            'Solana is a high-performance blockchain platform designed for decentralized applications and marketplaces. It uses a unique consensus mechanism called Proof of History (PoH) combined with Proof of Stake (PoS).',
-        },
-        {
-          type: 'key-concepts',
-          concepts: [
-            'Proof of History (PoH) provides a verifiable ordering of events',
-            'Transaction throughput of up to 65,000 TPS',
-            'Sub-second finality for faster user experiences',
-            'Low transaction costs (fractions of a cent)',
-          ],
-        },
-        {
-          type: 'text',
-          content:
-            'Unlike traditional blockchains that rely solely on PoS or PoW, Solana introduces PoH as a cryptographic clock that allows validators to agree on the time and order of events without extensive communication overhead.',
-        },
-        {
-          type: 'admonition',
-          admonitionType: 'tip',
-          content:
-            'Solana programs are stateless — they read and write data to separate accounts. This is fundamentally different from Ethereum smart contracts where state lives inside the contract.',
-        },
-        {
-          type: 'code',
-          language: 'rust',
-          content: `use solana_program::{
-  account_info::AccountInfo,
-  entrypoint,
-  entrypoint::ProgramResult,
-  pubkey::Pubkey,
-  msg,
-};
+  // Try seed data first
+  const seedLesson = seedLessons.find((l) => l.lessonIndex === lessonIndex);
+  const seedContent = seedLessonContents.find((c) => c.lessonIndex === lessonIndex);
 
-entrypoint!(process_instruction);
+  if (seedLesson && seedContent) {
+    return {
+      title: seedLesson.title.en ?? `Lesson ${lessonIndex + 1}`,
+      sections: seedContent.en,
+    };
+  }
 
-fn process_instruction(
-  program_id: &Pubkey,
-  accounts: &[AccountInfo],
-  instruction_data: &[u8],
-) -> ProgramResult {
-  msg!("Hello, Solana!");
-  Ok(())
-}`,
-        },
-        {
-          type: 'admonition',
-          admonitionType: 'warning',
-          content:
-            'Never hardcode private keys in your code. Always use wallet adapters and environment variables for key management.',
-        },
-        {
-          type: 'text',
-          content:
-            'In the next section, we will set up your local development environment and deploy your first program to devnet.',
-        },
-        {
-          type: 'admonition',
-          admonitionType: 'info',
-          content:
-            'Solana programs are typically written in Rust using the Anchor framework, which provides helpful macros and abstractions. We will cover Anchor in depth in later lessons.',
-        },
-      ],
-    },
-    {
-      title: 'Setting Up Your Environment',
-      sections: [
-        {
-          type: 'text',
-          content:
-            'Before writing Solana programs, you need to install the Solana CLI tools and set up a local development environment.',
-        },
-        {
-          type: 'code',
-          language: 'typescript',
-          content: `sh -c "$(curl -sSfL https://release.solana.com/stable/install)"
-
-// Verify installation
-solana --version
-
-// Configure for devnet
-solana config set --url devnet
-
-// Generate a new keypair
-solana-keygen new`,
-        },
-        {
-          type: 'key-concepts',
-          concepts: [
-            'Solana CLI provides tools for deploying and managing programs',
-            'Devnet is a free testing network that mirrors mainnet behavior',
-            'Keypairs consist of a public key (address) and private key (signer)',
-          ],
-        },
-        {
-          type: 'admonition',
-          admonitionType: 'tip',
-          content:
-            'Use `solana airdrop 2` to get free SOL on devnet for testing. You can request up to 2 SOL per airdrop.',
-        },
-      ],
-    },
-  ];
-
-  return lessons[lessonIndex % lessons.length] ?? lessons[0]!;
+  // Fallback for lessons beyond seed data
+  return {
+    title: `Lesson ${lessonIndex + 1}`,
+    sections: [
+      {
+        type: 'text',
+        content: 'This lesson content is coming soon. Check back later!',
+      },
+    ],
+  };
 }
 
 // ---------------------------------------------------------------------------
