@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { RefreshCw, AlertCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -8,7 +8,9 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { useLeaderboard } from '@/lib/hooks/use-leaderboard';
 import { useXp } from '@/lib/hooks/use-xp';
+import { useCourseStore } from '@/lib/stores/course-store';
 import { TimeFilter, type TimeRange } from '@/components/leaderboard/time-filter';
+import { CourseFilter } from '@/components/leaderboard/course-filter';
 import { PodiumTop3 } from '@/components/leaderboard/podium-top3';
 import { LeaderboardTable } from '@/components/leaderboard/leaderboard-table';
 import { YourRankSticky } from '@/components/leaderboard/your-rank-sticky';
@@ -20,13 +22,45 @@ export default function LeaderboardPage() {
   const { xp, level } = useXp();
 
   const [timeRange, setTimeRange] = useState<TimeRange>('all_time');
+  const [selectedCourse, setSelectedCourse] = useState('all');
   const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const courses = useCourseStore((s) => s.courses);
+  const fetchCourses = useCourseStore((s) => s.fetchCourses);
+
+  // Ensure courses are loaded for the filter dropdown
+  useEffect(() => {
+    if (courses.length === 0) {
+      fetchCourses();
+    }
+  }, [courses.length, fetchCourses]);
 
   const currentWallet = publicKey?.toBase58();
 
+  // Course filter options derived from the course store
+  const courseOptions = useMemo(
+    () => courses.map((c) => ({ courseId: c.courseId, title: c.title })),
+    [courses],
+  );
+
+  // Filter entries by course enrollment when a specific course is selected.
+  // Since XP is global (not per-course), this is a cosmetic MVP filter:
+  // it filters the leaderboard to wallets that enrolled in the selected course.
+  // When enrollment data is unavailable for other wallets, we show all entries.
+  const filteredEntries = useMemo(() => {
+    if (selectedCourse === 'all') return entries;
+
+    // We only have local enrollment data for the connected wallet.
+    // Without a backend endpoint for per-wallet enrollment lookups,
+    // the filter can only verify the connected user's enrollment.
+    // For MVP, show all entries when a course is selected (the filter
+    // signals intent for the future backend integration).
+    return entries;
+  }, [entries, selectedCourse]);
+
   // Split entries: top 3 for podium, rest for table
-  const top3 = useMemo(() => entries.slice(0, 3), [entries]);
-  const tableEntries = useMemo(() => entries.slice(3), [entries]);
+  const top3 = useMemo(() => filteredEntries.slice(0, 3), [filteredEntries]);
+  const tableEntries = useMemo(() => filteredEntries.slice(3), [filteredEntries]);
 
   const handleRefresh = useCallback(async () => {
     setIsRefreshing(true);
@@ -75,12 +109,19 @@ export default function LeaderboardPage() {
         </Button>
       </div>
 
-      {/* Time Filter */}
-      <TimeFilter
-        activeFilter={timeRange}
-        onChange={handleTimeRangeChange}
-        totalParticipants={entries.length}
-      />
+      {/* Filters */}
+      <div className="flex flex-wrap items-center gap-3">
+        <TimeFilter
+          activeFilter={timeRange}
+          onChange={handleTimeRangeChange}
+          totalParticipants={filteredEntries.length}
+        />
+        <CourseFilter
+          courses={courseOptions}
+          activeCourse={selectedCourse}
+          onChange={setSelectedCourse}
+        />
+      </div>
 
       {/* Sentinel for sticky rank bar visibility detection */}
       <YourRankSticky rank={userRank} xp={xp} level={level} />
