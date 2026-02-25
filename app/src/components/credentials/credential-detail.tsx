@@ -9,7 +9,9 @@ import {
   Check,
   User,
   Layers,
+  Download,
 } from 'lucide-react';
+import { generateCertificateImage } from '@/lib/utils/generate-certificate';
 import { cn } from '@/lib/utils';
 import { CLUSTER } from '@/lib/solana/constants';
 import type { Credential, VerificationResult } from '@/lib/solana/credentials';
@@ -66,6 +68,15 @@ export function CredentialDetail({
   const [ownerCopied, setOwnerCopied] = useState(false);
   const gradient = getTrackGradient(credential.attributes.trackId);
   const explorerUrl = `https://explorer.solana.com/address/${credential.assetId}?cluster=${CLUSTER}`;
+
+  const handleDownloadCertificate = useCallback(() => {
+    generateCertificateImage({
+      courseName: credential.name || 'Superteam Academy Credential',
+      recipientWallet: credential.owner,
+      issueDate: credential.createdAt ?? new Date().toISOString(),
+      trackId: credential.attributes.trackId,
+    });
+  }, [credential]);
 
   const handleCopyOwner = useCallback(async () => {
     if (!credential.owner) return;
@@ -182,17 +193,29 @@ export function CredentialDetail({
             </div>
           )}
 
-          {/* Explorer Link */}
-          <Button variant="outline" size="sm" className="gap-2" asChild>
-            <a
-              href={explorerUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+          {/* Actions */}
+          <div className="flex flex-wrap gap-3">
+            <Button variant="outline" size="sm" className="gap-2" asChild>
+              <a
+                href={explorerUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <ExternalLink className="size-3.5" />
+                View on Solana Explorer
+              </a>
+            </Button>
+
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-2"
+              onClick={handleDownloadCertificate}
             >
-              <ExternalLink className="size-3.5" />
-              View on Solana Explorer
-            </a>
-          </Button>
+              <Download className="size-3.5" />
+              {t('download_certificate')}
+            </Button>
+          </div>
         </div>
 
         {/* Right: Share */}
