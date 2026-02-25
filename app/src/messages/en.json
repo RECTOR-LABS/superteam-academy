@@ -187,7 +187,18 @@
     "credentials": "Credentials",
     "completed_courses": "Completed Courses",
     "connect_to_view": "Connect Your Wallet",
-    "connect_to_view_desc": "Connect your wallet to view your profile and track your learning progress."
+    "connect_to_view_desc": "Connect your wallet to view your profile and track your learning progress.",
+    "private_profile": "This profile is private.",
+    "joined": "Joined {date}"
+  },
+  "auth": {
+    "sign_in": "Sign In",
+    "sign_out": "Sign Out",
+    "continue_with_google": "Continue with Google",
+    "continue_with_github": "Continue with GitHub",
+    "connect_wallet": "Connect Wallet",
+    "or": "or",
+    "signed_in_as": "Signed in as {email}"
   },
   "settings": {
     "title": "Settings",
@@ -199,7 +210,24 @@
     "privacy": "Privacy",
     "theme_light": "Light",
     "theme_dark": "Dark",
-    "theme_system": "System"
+    "theme_system": "System",
+    "bio": "Bio",
+    "bio_placeholder": "Tell us about yourself...",
+    "social_links": "Social Links",
+    "twitter": "Twitter / X",
+    "github": "GitHub",
+    "website": "Website",
+    "profile_visibility": "Profile Visibility",
+    "public_profile": "Public",
+    "private_profile": "Private",
+    "export_data": "Export Data",
+    "export_data_desc": "Download all your locally stored data as a JSON file.",
+    "connected_accounts": "Connected Accounts",
+    "connected_accounts_desc": "Manage your linked sign-in methods.",
+    "link": "Link",
+    "unlink": "Unlink",
+    "linked": "Linked",
+    "not_linked": "Not Linked"
   },
   "gamification": {
     "xp": "XP",
@@ -207,7 +235,10 @@
     "streak": "Day Streak",
     "xp_earned": "+{amount} XP",
     "level_up": "Level Up!",
-    "achievement_unlocked": "Achievement Unlocked"
+    "achievement_unlocked": "Achievement Unlocked",
+    "streak_freeze": "Streak Freeze",
+    "freeze_available": "{count} freeze available",
+    "freeze_active": "Freeze active today"
   },
   "credentials": {
     "title": "Credential",
@@ -218,7 +249,8 @@
     "verified": "Verified",
     "owner": "Owner",
     "collection": "Collection",
-    "attributes": "Attributes"
+    "attributes": "Attributes",
+    "download_certificate": "Download Certificate"
   },
   "community": {
     "title": "Community Forum",
@@ -296,6 +328,23 @@
     "difficulty_intermediate": "Intermediate",
     "difficulty_advanced": "Advanced",
     "start_learning": "Start Learning"
+  },
+  "reviews": {
+    "title": "Reviews",
+    "tab_reviews": "Reviews ({count})",
+    "write_review": "Write a Review",
+    "your_rating": "Your Rating",
+    "your_comment": "Your Comment",
+    "submit": "Submit Review",
+    "submitting": "Submitting...",
+    "no_reviews": "No reviews yet. Be the first to share your experience!",
+    "average_rating": "Average Rating",
+    "comment_placeholder": "Share your experience with this course...",
+    "connect_to_review": "Connect your wallet to write a review.",
+    "review_submitted": "Review submitted!",
+    "review_submitted_desc": "Thank you for sharing your feedback.",
+    "rating_required": "Please select a rating before submitting.",
+    "already_reviewed": "You have already reviewed this course."
   },
   "footer": {
     "brand_tagline": "Learn Solana. Earn Credentials.",

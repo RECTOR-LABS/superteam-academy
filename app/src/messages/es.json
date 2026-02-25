@@ -187,7 +187,18 @@
     "credentials": "Credenciales",
     "completed_courses": "Cursos Completados",
     "connect_to_view": "Conecta Tu Billetera",
-    "connect_to_view_desc": "Conecta tu billetera para ver tu perfil y seguir tu progreso de aprendizaje."
+    "connect_to_view_desc": "Conecta tu billetera para ver tu perfil y seguir tu progreso de aprendizaje.",
+    "private_profile": "Este perfil es privado.",
+    "joined": "Miembro desde {date}"
+  },
+  "auth": {
+    "sign_in": "Iniciar Sesión",
+    "sign_out": "Cerrar Sesión",
+    "continue_with_google": "Continuar con Google",
+    "continue_with_github": "Continuar con GitHub",
+    "connect_wallet": "Conectar Billetera",
+    "or": "o",
+    "signed_in_as": "Sesión iniciada como {email}"
   },
   "settings": {
     "title": "Configuración",
@@ -199,7 +210,24 @@
     "privacy": "Privacidad",
     "theme_light": "Claro",
     "theme_dark": "Oscuro",
-    "theme_system": "Sistema"
+    "theme_system": "Sistema",
+    "bio": "Bio",
+    "bio_placeholder": "Cuéntanos sobre ti...",
+    "social_links": "Enlaces Sociales",
+    "twitter": "Twitter / X",
+    "github": "GitHub",
+    "website": "Website",
+    "profile_visibility": "Visibilidad del Perfil",
+    "public_profile": "Público",
+    "private_profile": "Privado",
+    "export_data": "Exportar Datos",
+    "export_data_desc": "Descarga todos tus datos almacenados localmente como un archivo JSON.",
+    "connected_accounts": "Cuentas Conectadas",
+    "connected_accounts_desc": "Administra tus métodos de inicio de sesión vinculados.",
+    "link": "Vincular",
+    "unlink": "Desvincular",
+    "linked": "Vinculado",
+    "not_linked": "No Vinculado"
   },
   "gamification": {
     "xp": "XP",
@@ -207,7 +235,10 @@
     "streak": "Días Seguidos",
     "xp_earned": "+{amount} XP",
     "level_up": "¡Subiste de Nivel!",
-    "achievement_unlocked": "Logro Desbloqueado"
+    "achievement_unlocked": "Logro Desbloqueado",
+    "streak_freeze": "Congelar Racha",
+    "freeze_available": "{count} congelamiento disponible",
+    "freeze_active": "Congelamiento activo hoy"
   },
   "credentials": {
     "title": "Credencial",
@@ -218,7 +249,8 @@
     "verified": "Verificado",
     "owner": "Propietario",
     "collection": "Colección",
-    "attributes": "Atributos"
+    "attributes": "Atributos",
+    "download_certificate": "Descargar Certificado"
   },
   "community": {
     "title": "Foro de la Comunidad",
@@ -296,6 +328,23 @@
     "difficulty_intermediate": "Intermedio",
     "difficulty_advanced": "Avanzado",
     "start_learning": "Empezar a Aprender"
+  },
+  "reviews": {
+    "title": "Reseñas",
+    "tab_reviews": "Reseñas ({count})",
+    "write_review": "Escribir Reseña",
+    "your_rating": "Tu Calificación",
+    "your_comment": "Tu Comentario",
+    "submit": "Enviar Reseña",
+    "submitting": "Enviando...",
+    "no_reviews": "Aún no hay reseñas. ¡Sé el primero en compartir tu experiencia!",
+    "average_rating": "Calificación Promedio",
+    "comment_placeholder": "Comparte tu experiencia con este curso...",
+    "connect_to_review": "Conecta tu billetera para escribir una reseña.",
+    "review_submitted": "¡Reseña enviada!",
+    "review_submitted_desc": "Gracias por compartir tu opinión.",
+    "rating_required": "Selecciona una calificación antes de enviar.",
+    "already_reviewed": "Ya has evaluado este curso."
   },
   "footer": {
     "brand_tagline": "Aprende Solana. Gana Credenciales.",
