@@ -17,6 +17,10 @@ import { EnrollButton } from '@/components/courses/enroll-button';
 import { CurriculumList } from '@/components/courses/curriculum-list';
 import { PrerequisiteCard } from '@/components/courses/prerequisite-card';
 import { CredentialPreview } from '@/components/courses/credential-preview';
+import {
+  CourseReviews,
+  useReviewCount,
+} from '@/components/courses/course-reviews';
 import { useCourse } from '@/lib/hooks/use-course';
 import { useCourseStore } from '@/lib/stores/course-store';
 
@@ -26,8 +30,10 @@ import { useCourseStore } from '@/lib/stores/course-store';
 
 export default function CourseDetailPage() {
   const t = useTranslations('courses');
+  const tReviews = useTranslations('reviews');
   const params = useParams<{ courseId: string }>();
   const courseId = params.courseId;
+  const reviewCount = useReviewCount(courseId);
 
   const fetchCourses = useCourseStore((s) => s.fetchCourses);
   const coursesLoaded = useCourseStore((s) => s.courses.length > 0);
@@ -94,6 +100,9 @@ export default function CourseDetailPage() {
             <TabsList variant="line">
               <TabsTrigger value="overview">{t('tab_overview')}</TabsTrigger>
               <TabsTrigger value="curriculum">{t('tab_curriculum')}</TabsTrigger>
+              <TabsTrigger value="reviews">
+                {tReviews('tab_reviews', { count: reviewCount })}
+              </TabsTrigger>
             </TabsList>
 
             {/* Overview tab */}
@@ -169,6 +178,11 @@ export default function CourseDetailPage() {
                     : undefined
                 }
               />
+            </TabsContent>
+
+            {/* Reviews tab */}
+            <TabsContent value="reviews" className="mt-6">
+              <CourseReviews courseId={courseId} />
             </TabsContent>
           </Tabs>
         </div>
