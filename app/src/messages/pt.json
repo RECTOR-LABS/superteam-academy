@@ -166,7 +166,8 @@
     "credentials": "Suas Credenciais",
     "recommended": "Recomendado Para Você",
     "activity": "Atividade",
-    "quick_stats": "Estatísticas Rápidas"
+    "quick_stats": "Estatísticas Rápidas",
+    "recent_activity": "Atividade Recente"
   },
   "leaderboard": {
     "title": "Ranking",
@@ -178,7 +179,9 @@
     "wallet": "Carteira",
     "level": "Nível",
     "xp": "XP",
-    "courses_completed": "Cursos"
+    "courses_completed": "Cursos",
+    "all_courses": "Todos os Cursos",
+    "filter_by_course": "Filtrar por Curso"
   },
   "profile": {
     "member_since": "Membro desde",

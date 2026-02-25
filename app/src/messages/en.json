@@ -166,7 +166,8 @@
     "credentials": "Your Credentials",
     "recommended": "Recommended For You",
     "activity": "Activity",
-    "quick_stats": "Quick Stats"
+    "quick_stats": "Quick Stats",
+    "recent_activity": "Recent Activity"
   },
   "leaderboard": {
     "title": "Leaderboard",
@@ -178,7 +179,9 @@
     "wallet": "Wallet",
     "level": "Level",
     "xp": "XP",
-    "courses_completed": "Courses"
+    "courses_completed": "Courses",
+    "all_courses": "All Courses",
+    "filter_by_course": "Filter by Course"
   },
   "profile": {
     "member_since": "Member since",
