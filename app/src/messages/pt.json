@@ -185,7 +185,9 @@
     "skills": "Habilidades",
     "achievements": "Conquistas",
     "credentials": "Credenciais",
-    "completed_courses": "Cursos Concluídos"
+    "completed_courses": "Cursos Concluídos",
+    "connect_to_view": "Conecte Sua Carteira",
+    "connect_to_view_desc": "Conecte sua carteira para ver seu perfil e acompanhar seu progresso de aprendizado."
   },
   "settings": {
     "title": "Configurações",

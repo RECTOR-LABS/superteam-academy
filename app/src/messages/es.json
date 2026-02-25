@@ -185,7 +185,9 @@
     "skills": "Habilidades",
     "achievements": "Logros",
     "credentials": "Credenciales",
-    "completed_courses": "Cursos Completados"
+    "completed_courses": "Cursos Completados",
+    "connect_to_view": "Conecta Tu Billetera",
+    "connect_to_view_desc": "Conecta tu billetera para ver tu perfil y seguir tu progreso de aprendizaje."
   },
   "settings": {
     "title": "Configuración",

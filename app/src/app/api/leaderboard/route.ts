@@ -35,6 +35,16 @@ export async function GET() {
     return NextResponse.json(cachedLeaderboard.data);
   }
 
+  // DAS methods (getTokenAccounts) require a Helius RPC endpoint.
+  // The public Solana RPC does not support DAS — return an empty leaderboard
+  // with a flag so the UI can show an appropriate message.
+  const hasDasSupport = HELIUS_RPC_SERVER.includes('helius');
+
+  if (!hasDasSupport) {
+    const empty: LeaderboardData = { entries: [], total: 0 };
+    return NextResponse.json({ ...empty, dasUnavailable: true });
+  }
+
   try {
     const response = await fetch(HELIUS_RPC_SERVER, {
       method: 'POST',
@@ -44,8 +54,9 @@ export async function GET() {
         id: '1',
         method: 'getTokenAccounts',
         params: {
-          mint: XP_MINT.toBase58(),
+          mintAddress: XP_MINT.toBase58(),
           limit: 100,
+          page: 1,
         },
       }),
     });

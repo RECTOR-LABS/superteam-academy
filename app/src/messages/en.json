@@ -185,7 +185,9 @@
     "skills": "Skills",
     "achievements": "Achievements",
     "credentials": "Credentials",
-    "completed_courses": "Completed Courses"
+    "completed_courses": "Completed Courses",
+    "connect_to_view": "Connect Your Wallet",
+    "connect_to_view_desc": "Connect your wallet to view your profile and track your learning progress."
   },
   "settings": {
     "title": "Settings",
