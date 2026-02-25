@@ -3,7 +3,9 @@
   "short_name": "Academy",
   "description": "Learn Solana Development",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#0f0f12",
   "theme_color": "#7c3aed",
   "icons": [

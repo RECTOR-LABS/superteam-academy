@@ -9,6 +9,7 @@ import { WalletProvider } from '@/components/providers/wallet-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Toaster } from '@/components/ui/sonner';
 import { AnalyticsProvider } from '@/components/providers/analytics-provider';
+import { ServiceWorkerProvider } from '@/components/providers/sw-provider';
 import '../globals.css';
 
 const inter = Inter({
@@ -59,6 +60,7 @@ export default async function LocaleLayout({
                 {children}
                 <Toaster />
                 <AnalyticsProvider />
+                <ServiceWorkerProvider />
               </TooltipProvider>
             </NextIntlClientProvider>
           </WalletProvider>

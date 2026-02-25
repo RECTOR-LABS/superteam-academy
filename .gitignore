@@ -27,8 +27,7 @@ Thumbs.db
 # Sentry
 .sentryclirc
 
-# PWA
-sw.js
+# PWA (generated workbox files)
 workbox-*.js
 
 # Test
