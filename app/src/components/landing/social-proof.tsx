@@ -34,13 +34,21 @@ const TESTIMONIALS: Testimonial[] = [
   },
 ];
 
-const ECOSYSTEM_PARTNERS = [
-  'Solana Foundation',
-  'Metaplex',
-  'Helius',
-  'Jupiter',
-  'Phantom',
-  'Superteam',
+interface EcosystemPartner {
+  name: string;
+  /** First letter displayed as the badge icon */
+  initial: string;
+  /** Tailwind gradient classes for the badge icon background */
+  gradient: string;
+}
+
+const ECOSYSTEM_PARTNERS: EcosystemPartner[] = [
+  { name: 'Solana Foundation', initial: 'S', gradient: 'from-violet-500 to-purple-600' },
+  { name: 'Metaplex', initial: 'M', gradient: 'from-pink-500 to-rose-600' },
+  { name: 'Helius', initial: 'H', gradient: 'from-orange-400 to-amber-600' },
+  { name: 'Jupiter', initial: 'J', gradient: 'from-emerald-400 to-teal-600' },
+  { name: 'Phantom', initial: 'P', gradient: 'from-indigo-400 to-blue-600' },
+  { name: 'Superteam', initial: 'ST', gradient: 'from-cyan-400 to-sky-600' },
 ];
 
 interface StatItem {
@@ -128,13 +136,20 @@ export function SocialProof() {
           <p className="text-sm font-medium text-muted-foreground">
             Trusted by the Solana ecosystem
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-8">
+          <div className="flex flex-wrap items-center justify-center gap-4">
             {ECOSYSTEM_PARTNERS.map((partner) => (
               <div
-                key={partner}
-                className="flex h-10 items-center rounded-lg bg-muted/50 px-5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                key={partner.name}
+                className="group flex items-center gap-2.5 rounded-xl border bg-card px-4 py-2.5 shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5"
               >
-                {partner}
+                <div
+                  className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${partner.gradient} text-xs font-bold text-white shadow-sm`}
+                >
+                  {partner.initial}
+                </div>
+                <span className="text-sm font-medium text-muted-foreground transition-colors group-hover:text-foreground">
+                  {partner.name}
+                </span>
               </div>
             ))}
           </div>

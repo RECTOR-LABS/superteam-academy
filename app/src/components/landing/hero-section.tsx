@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { useSession, signIn } from 'next-auth/react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { Link } from '@/i18n/routing';
 import { Button } from '@/components/ui/button';
@@ -8,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import {
   ArrowRight,
   BookOpen,
+  UserPlus,
   Users,
   Zap,
   Wallet,
@@ -43,6 +45,7 @@ const CODE_LINES = [
 export function HeroSection() {
   const t = useTranslations('landing');
   const tCommon = useTranslations('common');
+  const { status: authStatus } = useSession();
   const { connected, select, wallets } = useWallet();
 
   function handleConnectWallet() {
@@ -100,6 +103,18 @@ export function HeroSection() {
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
+
+              {authStatus !== 'authenticated' && (
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="gap-2"
+                  onClick={() => signIn()}
+                >
+                  <UserPlus className="h-4 w-4" />
+                  {t('hero_signup')}
+                </Button>
+              )}
 
               {!connected && (
                 <Button

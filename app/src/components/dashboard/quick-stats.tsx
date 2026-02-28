@@ -1,6 +1,6 @@
 'use client';
 
-import { Zap, Shield, Flame, BookOpen } from 'lucide-react';
+import { Zap, Shield, Flame, BookOpen, Trophy } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
@@ -14,6 +14,7 @@ interface QuickStatsProps {
   levelTitle: string;
   currentStreak: number;
   enrolledCount: number;
+  rank: number | null;
   isLoading: boolean;
   className?: string;
 }
@@ -77,14 +78,17 @@ export function QuickStats({
   levelTitle,
   currentStreak,
   enrolledCount,
+  rank,
   isLoading,
   className,
 }: QuickStatsProps) {
   const t = useTranslations('gamification');
+  const tLeaderboard = useTranslations('leaderboard');
 
   if (isLoading) {
     return (
-      <div className={cn('grid gap-4 sm:grid-cols-2 lg:grid-cols-4', className)}>
+      <div className={cn('grid gap-4 sm:grid-cols-2 lg:grid-cols-5', className)}>
+        <StatCardSkeleton />
         <StatCardSkeleton />
         <StatCardSkeleton />
         <StatCardSkeleton />
@@ -94,7 +98,7 @@ export function QuickStats({
   }
 
   return (
-    <div className={cn('grid gap-4 sm:grid-cols-2 lg:grid-cols-4', className)}>
+    <div className={cn('grid gap-4 sm:grid-cols-2 lg:grid-cols-5', className)}>
       {/* Total XP */}
       <StatCard
         icon={<Zap className="size-5 text-yellow-600 dark:text-yellow-400" />}
@@ -150,6 +154,15 @@ export function QuickStats({
         label="Courses"
         value={enrolledCount}
         accent="text-emerald-600 dark:text-emerald-400"
+      />
+
+      {/* Leaderboard Rank */}
+      <StatCard
+        icon={<Trophy className="size-5 text-purple-600 dark:text-purple-400" />}
+        iconBg="bg-purple-100 dark:bg-purple-900/40"
+        label={tLeaderboard('rank')}
+        value={rank !== null ? `#${rank}` : '—'}
+        accent="text-purple-600 dark:text-purple-400"
       />
     </div>
   );

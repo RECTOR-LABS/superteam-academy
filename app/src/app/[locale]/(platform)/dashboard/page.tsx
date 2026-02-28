@@ -7,6 +7,7 @@ import { useUserStore } from '@/lib/stores/user-store';
 import { useCourseStore } from '@/lib/stores/course-store';
 import { useXp } from '@/lib/hooks/use-xp';
 import { useStreak } from '@/lib/hooks/use-streak';
+import { useLeaderboard } from '@/lib/hooks/use-leaderboard';
 import { useAchievements } from '@/lib/hooks/use-achievements';
 import { useCredentials } from '@/lib/hooks/use-credentials';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -34,6 +35,7 @@ export default function DashboardPage() {
 
   const { xp, level, progress, levelTitle, isLoading: xpLoading } = useXp();
   const { currentStreak, longestStreak, freezesAvailable, isFreezeActiveToday, useFreeze } = useStreak();
+  const { userRank } = useLeaderboard();
   const { achievements, isLoading: achievementsLoading } = useAchievements();
   const { credentials, isLoading: credentialsLoading } = useCredentials();
 
@@ -78,6 +80,7 @@ export default function DashboardPage() {
         levelTitle={levelTitle}
         currentStreak={currentStreak}
         enrolledCount={enrollments.size}
+        rank={userRank}
         isLoading={isLoading}
       />
 

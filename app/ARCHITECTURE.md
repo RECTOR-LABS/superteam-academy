@@ -184,6 +184,10 @@ Component → Hook → Store → Service (lib/solana/*) → On-chain Program
 - `program.ts` — Anchor program instance factory
 - `constants.ts` — Program IDs, mint addresses, cluster config
 
+**Service Abstraction** (`src/lib/services/`) — A clean interface layer that decouples business logic from on-chain implementation details. The primary service is `LearningProgressService` (`src/lib/services/learning-progress.ts`), which defines a provider-agnostic contract for all learner progress operations: fetching course progress, completing lessons, reading XP balances, streak data, leaderboard entries, and credentials.
+
+The service uses a factory pattern (`createLearningProgressService()`) that currently returns a `MockLearningProgressService` with realistic seed data. When the Anchor IDL integration is finalized, swapping to a live on-chain implementation requires only a new class that implements the same `LearningProgressService` interface — no changes to hooks, stores, or components. This boundary is intentional: it isolates the entire UI layer from RPC calls, transaction building, and account deserialization, making the codebase testable without a running validator and enabling a clean swap-out path to production on-chain reads.
+
 **API Routes** (`src/app/api/`) — Server-only endpoints implementing the backend signer pattern. The server co-signs transactions to prevent client-side cheating (e.g., self-awarding XP). Each route validates input, rate-limits by IP, and uses the backend keypair to authorize on-chain mutations:
 
 | Route | Method | Purpose |

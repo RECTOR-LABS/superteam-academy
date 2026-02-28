@@ -1823,7 +1823,7 @@ export interface SeedAchievement {
   name: LocalizedString;
   description: LocalizedText;
   icon: string;
-  category: 'learning' | 'streak' | 'challenge' | 'social' | 'special' | 'progress' | 'skill';
+  category: 'learning' | 'streak' | 'challenge' | 'social' | 'special' | 'progress' | 'skill' | 'community';
   xpReward: number;
   rarity: 'common' | 'rare' | 'epic' | 'legendary';
   condition: { type: string; value: number };
@@ -2064,6 +2064,124 @@ export const seedAchievements: SeedAchievement[] = [
     xpReward: 10000,
     rarity: 'legendary',
     condition: { type: 'all_tracks_completed', value: 1 },
+  },
+
+  // ── Community ────────────────────────────────────────────────────────────
+  {
+    _id: 'achievement-first-comment',
+    achievementId: 'first-comment',
+    name: {
+      en: 'First Comment',
+      pt: 'Primeiro Comentário',
+      es: 'Primer Comentario',
+    },
+    description: {
+      en: 'Post your first comment in the community',
+      pt: 'Publique seu primeiro comentário na comunidade',
+      es: 'Publica tu primer comentario en la comunidad',
+    },
+    icon: '💬',
+    category: 'community',
+    xpReward: 50,
+    rarity: 'common',
+    condition: { type: 'community_posts', value: 1 },
+  },
+  {
+    _id: 'achievement-helper',
+    achievementId: 'helper',
+    name: {
+      en: 'Helper',
+      pt: 'Ajudante',
+      es: 'Ayudante',
+    },
+    description: {
+      en: 'Help another learner in the community forum',
+      pt: 'Ajude outro aprendiz no fórum da comunidade',
+      es: 'Ayuda a otro aprendiz en el foro de la comunidad',
+    },
+    icon: '🤝',
+    category: 'community',
+    xpReward: 200,
+    rarity: 'rare',
+    condition: { type: 'community_replies', value: 5 },
+  },
+  {
+    _id: 'achievement-top-contributor',
+    achievementId: 'top-contributor',
+    name: {
+      en: 'Top Contributor',
+      pt: 'Principal Colaborador',
+      es: 'Colaborador Principal',
+    },
+    description: {
+      en: 'Become a top contributor with 50+ helpful replies',
+      pt: 'Torne-se o principal colaborador com 50+ respostas úteis',
+      es: 'Conviértete en un colaborador principal con 50+ respuestas útiles',
+    },
+    icon: '🌟',
+    category: 'community',
+    xpReward: 1000,
+    rarity: 'epic',
+    condition: { type: 'community_replies', value: 50 },
+  },
+
+  // ── Special ──────────────────────────────────────────────────────────────
+  {
+    _id: 'achievement-early-adopter',
+    achievementId: 'early-adopter',
+    name: {
+      en: 'Early Adopter',
+      pt: 'Usuário Pioneiro',
+      es: 'Usuario Pionero',
+    },
+    description: {
+      en: 'Join the platform during its launch period',
+      pt: 'Junte-se à plataforma durante seu período de lançamento',
+      es: 'Únete a la plataforma durante su período de lanzamiento',
+    },
+    icon: '🚀',
+    category: 'special',
+    xpReward: 500,
+    rarity: 'rare',
+    condition: { type: 'join_date_before', value: 1 },
+  },
+  {
+    _id: 'achievement-bug-hunter',
+    achievementId: 'bug-hunter',
+    name: {
+      en: 'Bug Hunter',
+      pt: 'Caçador de Bugs',
+      es: 'Cazador de Bugs',
+    },
+    description: {
+      en: 'Report a verified bug in the platform',
+      pt: 'Reporte um bug verificado na plataforma',
+      es: 'Reporta un bug verificado en la plataforma',
+    },
+    icon: '🐛',
+    category: 'special',
+    xpReward: 750,
+    rarity: 'epic',
+    condition: { type: 'bugs_reported', value: 1 },
+  },
+  {
+    _id: 'achievement-perfect-score',
+    achievementId: 'perfect-score',
+    name: {
+      en: 'Perfect Score',
+      pt: 'Pontuação Perfeita',
+      es: 'Puntuación Perfecta',
+    },
+    description: {
+      en: 'Complete a course challenge with 100% test pass rate on first try',
+      pt: 'Conclua um desafio de curso com 100% de taxa de aprovação nos testes na primeira tentativa',
+      es: 'Completa un desafío de curso con 100% de tasa de aprobación en los tests en el primer intento',
+    },
+    icon: '💯',
+    category: 'special',
+    xpReward: 2000,
+    rarity: 'legendary',
+    condition: { type: 'perfect_challenges', value: 1 },
   },
 ];
 
