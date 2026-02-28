@@ -130,7 +130,10 @@
     "tests_summary": "{passed}/{total} testes passaram",
     "execution_time": "{time}ms",
     "auto_saved": "Salvo automaticamente",
-    "line": "Ln {line}"
+    "line": "Ln {line}",
+    "show_solution": "Mostrar Solução",
+    "solution_warning": "Tem certeza? Ver a solução significa que você não ganhará XP total nesta aula.",
+    "solution": "Solução"
   },
   "challenge": {
     "title": "Desafio de Código",
@@ -179,6 +182,7 @@
     "wallet": "Carteira",
     "level": "Nível",
     "xp": "XP",
+    "streak": "Sequência",
     "courses_completed": "Cursos",
     "all_courses": "Todos os Cursos",
     "filter_by_course": "Filtrar por Curso"
@@ -360,6 +364,11 @@
     "link_privacy": "Privacidade",
     "link_contact": "Contato",
     "copyright": "\u00A9 {year} Superteam Academy. Todos os direitos reservados.",
-    "built_on_solana": "Construído na Solana"
+    "built_on_solana": "Construído na Solana",
+    "newsletter_title": "Fique Atualizado",
+    "newsletter_desc": "Receba os últimos cursos e novidades",
+    "subscribe": "Inscrever-se",
+    "email_placeholder": "Digite seu email",
+    "subscribed": "Obrigado por se inscrever!"
   }
 }

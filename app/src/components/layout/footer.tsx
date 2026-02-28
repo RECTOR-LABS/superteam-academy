@@ -1,7 +1,11 @@
 'use client';
 
+import { type FormEvent, useCallback, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { toast } from 'sonner';
 import { Link } from '@/i18n/routing';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { GraduationCap } from 'lucide-react';
 
@@ -133,6 +137,56 @@ const socialLinks: SocialLink[] = [
   },
 ];
 
+function NewsletterForm() {
+  const t = useTranslations('footer');
+  const [submitted, setSubmitted] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleSubmit = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const email = inputRef.current?.value.trim();
+      if (!email) return;
+
+      setSubmitted(true);
+      toast.success(t('subscribed'));
+
+      if (inputRef.current) {
+        inputRef.current.value = '';
+      }
+
+      // Reset after a delay so users can subscribe again if needed
+      setTimeout(() => setSubmitted(false), 3000);
+    },
+    [t],
+  );
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="flex w-full max-w-sm items-center gap-2"
+    >
+      <Input
+        ref={inputRef}
+        type="email"
+        required
+        placeholder={t('email_placeholder')}
+        className="h-9 text-sm"
+        disabled={submitted}
+        aria-label={t('email_placeholder')}
+      />
+      <Button
+        type="submit"
+        size="sm"
+        disabled={submitted}
+        className="shrink-0"
+      >
+        {t('subscribe')}
+      </Button>
+    </form>
+  );
+}
+
 export function Footer() {
   const nav = useTranslations('nav');
   const t = useTranslations('footer');
@@ -235,6 +289,21 @@ export function Footer() {
               </ul>
             </div>
           ))}
+        </div>
+
+        {/* Newsletter Signup */}
+        <div className="mt-12 rounded-lg border border-border/50 bg-muted/30 p-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="space-y-1">
+              <h3 className="text-sm font-semibold text-foreground">
+                {t('newsletter_title')}
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                {t('newsletter_desc')}
+              </p>
+            </div>
+            <NewsletterForm />
+          </div>
         </div>
 
         <Separator className="my-8" />
