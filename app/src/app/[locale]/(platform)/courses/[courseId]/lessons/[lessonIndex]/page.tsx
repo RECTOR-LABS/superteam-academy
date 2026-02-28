@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import {
@@ -14,6 +14,11 @@ import { Link } from '@/i18n/routing';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
+  ResizablePanelGroup,
+  ResizablePanel,
+  ResizableHandle,
+} from '@/components/ui/resizable';
+import {
   Breadcrumb,
   BreadcrumbList,
   BreadcrumbItem,
@@ -25,6 +30,7 @@ import { Badge } from '@/components/ui/badge';
 import { LessonSidebar } from '@/components/lessons/lesson-sidebar';
 import { LessonContent } from '@/components/lessons/lesson-content';
 import { LessonCompleteButton } from '@/components/lessons/lesson-complete-button';
+import { SolutionToggle } from '@/components/challenges/solution-toggle';
 import type { TestResult } from '@/components/editor/output-panel';
 
 const MonacoEditorWrapper = dynamic(
@@ -69,6 +75,28 @@ fn process_instruction(
   Ok(())
 }`;
 
+const MOCK_SOLUTION_CODE = `use solana_program::{
+  account_info::AccountInfo,
+  entrypoint,
+  entrypoint::ProgramResult,
+  pubkey::Pubkey,
+  msg,
+};
+
+entrypoint!(process_instruction);
+
+fn process_instruction(
+  _program_id: &Pubkey,
+  _accounts: &[AccountInfo],
+  instruction_data: &[u8],
+) -> ProgramResult {
+  if instruction_data.is_empty() {
+    msg!("No instruction data provided, using defaults");
+  }
+  msg!("Hello, Solana!");
+  Ok(())
+}`;
+
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
@@ -99,6 +127,16 @@ export default function LessonPage() {
   const [output, setOutput] = useState('');
   const [testResults, setTestResults] = useState<TestResult[]>([]);
   const [isRunning, setIsRunning] = useState(false);
+
+  // Track desktop breakpoint (lg: 1024px) for resizable vs stacked layout
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    const mql = window.matchMedia('(min-width: 1024px)');
+    setIsDesktop(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mql.addEventListener('change', handler);
+    return () => mql.removeEventListener('change', handler);
+  }, []);
 
   // Derived state
   const courseTitle = selectedCourse?.title ?? 'Course';
@@ -261,34 +299,80 @@ export default function LessonPage() {
         {/* Content area */}
         <div className="flex flex-1 flex-col overflow-hidden">
           {isInteractive ? (
-            // Split pane: left content, right editor
-            <div className="flex flex-1 flex-col overflow-hidden lg:flex-row">
-              {/* Left: Lesson content */}
-              <div className="flex-1 overflow-y-auto border-b p-6 lg:border-r lg:border-b-0">
-                <LessonContent
-                  courseId={courseId}
-                  lessonIndex={lessonIndex}
-                />
-              </div>
+            isDesktop ? (
+              // Desktop: resizable split pane
+              <ResizablePanelGroup
+                orientation="horizontal"
+                className="flex-1"
+              >
+                <ResizablePanel defaultSize={50} minSize={30}>
+                  <div className="h-full overflow-y-auto p-6">
+                    <LessonContent
+                      courseId={courseId}
+                      lessonIndex={lessonIndex}
+                    />
+                    <SolutionToggle
+                      solutionCode={MOCK_SOLUTION_CODE}
+                      language="rust"
+                      className="mt-6"
+                    />
+                  </div>
+                </ResizablePanel>
 
-              {/* Right: Code editor + output */}
+                <ResizableHandle withHandle />
+
+                <ResizablePanel defaultSize={50} minSize={30}>
+                  <div className="flex h-full flex-col overflow-hidden">
+                    <MonacoEditorWrapper
+                      defaultValue={MOCK_STARTER_CODE}
+                      language="rust"
+                      onChange={setCode}
+                      onRun={handleRunCode}
+                      onReset={handleResetCode}
+                      isRunning={isRunning}
+                      className="flex-1"
+                    />
+                    <OutputPanel
+                      output={output}
+                      testResults={testResults}
+                      isRunning={isRunning}
+                    />
+                  </div>
+                </ResizablePanel>
+              </ResizablePanelGroup>
+            ) : (
+              // Mobile: stacked layout
               <div className="flex flex-1 flex-col overflow-hidden">
-                <MonacoEditorWrapper
-                  defaultValue={MOCK_STARTER_CODE}
-                  language="rust"
-                  onChange={setCode}
-                  onRun={handleRunCode}
-                  onReset={handleResetCode}
-                  isRunning={isRunning}
-                  className="flex-1"
-                />
-                <OutputPanel
-                  output={output}
-                  testResults={testResults}
-                  isRunning={isRunning}
-                />
+                <div className="flex-1 overflow-y-auto border-b p-6">
+                  <LessonContent
+                    courseId={courseId}
+                    lessonIndex={lessonIndex}
+                  />
+                  <SolutionToggle
+                    solutionCode={MOCK_SOLUTION_CODE}
+                    language="rust"
+                    className="mt-6"
+                  />
+                </div>
+
+                <div className="flex flex-1 flex-col overflow-hidden">
+                  <MonacoEditorWrapper
+                    defaultValue={MOCK_STARTER_CODE}
+                    language="rust"
+                    onChange={setCode}
+                    onRun={handleRunCode}
+                    onReset={handleResetCode}
+                    isRunning={isRunning}
+                    className="flex-1"
+                  />
+                  <OutputPanel
+                    output={output}
+                    testResults={testResults}
+                    isRunning={isRunning}
+                  />
+                </div>
               </div>
-            </div>
+            )
           ) : (
             // Full-width theory lesson
             <div className="flex-1 overflow-y-auto">
